@@ -1,0 +1,17 @@
+syntax = 'proto3';
+
+package card;
+
+option go_package = "card-processing.card.v1";
+
+service Card {
+  rpc Test (TestRequest) returns (TestResponse);
+}
+
+message TestRequest {
+  string echo = 1;
+}
+
+message TestResponse {
+  string echo = 1;
+}
