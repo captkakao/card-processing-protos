@@ -4,7 +4,7 @@
 // - protoc             v3.21.7
 // source: card/card.proto
 
-package card_processing_card_v1
+package cardv1
 
 import (
 	context "context"

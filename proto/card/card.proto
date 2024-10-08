@@ -2,7 +2,7 @@ syntax = 'proto3';
 
 package card;
 
-option go_package = "card-processing.card.v1";
+option go_package = "card-processing.card.v1;cardv1";
 
 service Card {
   rpc Test (TestRequest) returns (TestResponse);
