@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Card_Test_FullMethodName = "/card.Card/Test"
+	Card_BalanceByPan_FullMethodName = "/card.Card/BalanceByPan"
 )
 
 // CardClient is the client API for Card service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CardClient interface {
-	Test(ctx context.Context, in *TestRequest, opts ...grpc.CallOption) (*TestResponse, error)
+	BalanceByPan(ctx context.Context, in *BalanceRequest, opts ...grpc.CallOption) (*BalanceResponse, error)
 }
 
 type cardClient struct {
@@ -37,10 +37,10 @@ func NewCardClient(cc grpc.ClientConnInterface) CardClient {
 	return &cardClient{cc}
 }
 
-func (c *cardClient) Test(ctx context.Context, in *TestRequest, opts ...grpc.CallOption) (*TestResponse, error) {
+func (c *cardClient) BalanceByPan(ctx context.Context, in *BalanceRequest, opts ...grpc.CallOption) (*BalanceResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TestResponse)
-	err := c.cc.Invoke(ctx, Card_Test_FullMethodName, in, out, cOpts...)
+	out := new(BalanceResponse)
+	err := c.cc.Invoke(ctx, Card_BalanceByPan_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *cardClient) Test(ctx context.Context, in *TestRequest, opts ...grpc.Cal
 // All implementations must embed UnimplementedCardServer
 // for forward compatibility.
 type CardServer interface {
-	Test(context.Context, *TestRequest) (*TestResponse, error)
+	BalanceByPan(context.Context, *BalanceRequest) (*BalanceResponse, error)
 	mustEmbedUnimplementedCardServer()
 }
 
@@ -62,8 +62,8 @@ type CardServer interface {
 // pointer dereference when methods are called.
 type UnimplementedCardServer struct{}
 
-func (UnimplementedCardServer) Test(context.Context, *TestRequest) (*TestResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Test not implemented")
+func (UnimplementedCardServer) BalanceByPan(context.Context, *BalanceRequest) (*BalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BalanceByPan not implemented")
 }
 func (UnimplementedCardServer) mustEmbedUnimplementedCardServer() {}
 func (UnimplementedCardServer) testEmbeddedByValue()              {}
@@ -86,20 +86,20 @@ func RegisterCardServer(s grpc.ServiceRegistrar, srv CardServer) {
 	s.RegisterService(&Card_ServiceDesc, srv)
 }
 
-func _Card_Test_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TestRequest)
+func _Card_BalanceByPan_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BalanceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CardServer).Test(ctx, in)
+		return srv.(CardServer).BalanceByPan(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Card_Test_FullMethodName,
+		FullMethod: Card_BalanceByPan_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CardServer).Test(ctx, req.(*TestRequest))
+		return srv.(CardServer).BalanceByPan(ctx, req.(*BalanceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +112,8 @@ var Card_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*CardServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Test",
-			Handler:    _Card_Test_Handler,
+			MethodName: "BalanceByPan",
+			Handler:    _Card_BalanceByPan_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

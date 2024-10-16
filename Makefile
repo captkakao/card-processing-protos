@@ -4,23 +4,19 @@ PROTO_DIR = proto
 # Output directory for generated Go files
 OUT_DIR = gen/go
 
+# Find all .proto files in PROTO_DIR and its subdirectories
+PROTO_FILES := $(shell find $(PROTO_DIR) -name '*.proto')
+
 # Define the command to run protoc
-PROTOC_GEN = protoc -I $(PROTO_DIR) $(PROTO_DIR)/card/card.proto \
-  --go_out=$(OUT_DIR) --go_opt=paths=source_relative \
-  --go-grpc_out=$(OUT_DIR) --go-grpc_opt=paths=source_relative
+define PROTOC_GEN
+	protoc -I $(PROTO_DIR) $(1) \
+		--go_out=$(OUT_DIR) --go_opt=paths=source_relative \
+		--go-grpc_out=$(OUT_DIR) --go-grpc_opt=paths=source_relative
+endef
 
 # Ensure output directory exists before generating Protobuf files
 proto-generate: $(OUT_DIR)
-	$(PROTOC_GEN)
-
-# Ensure output directory existss
-$(OUT_DIR):
-	@mkdir -p $(OUT_DIR)
-
-# Default target
-all: proto-generate
-
-.PHONY: all clean proto-generate
+	$(foreach PROTO_FILE, $(PROTO_FILES), $(call PROTOC_GEN,$(PROTO_FILE));)
 
 # Clean generated files
 clean:
