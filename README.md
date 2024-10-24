@@ -1,5 +1,5 @@
 First, you have to install the `protoc` utility to generate Go code from proto files. Follow the installation instructions at https://grpc.io/docs/protoc-installation/.
-
+..
 Once you have `protoc` installed, you can use the provided Makefile to generate Go code from your `.proto` files.
 
 All proto files will be located at proto/PROJECT_NAME/*
